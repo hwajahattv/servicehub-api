@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../database/prisma.service';
 import * as bcrypt from 'bcrypt';
 import ms, { StringValue } from 'ms';
-import { randomUUID } from 'crypto';
+import { randomBytes } from 'crypto';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
@@ -82,7 +82,7 @@ export class UsersRepository {
   }
 
   async generateRefreshToken(userId: string): Promise<string> {
-    const token = randomUUID();
+    const token = randomBytes(64).toString('hex');
     const tokenHash = await bcrypt.hash(token, 12);
 
     const expiresIn = this.configService.getOrThrow<StringValue>(
@@ -100,5 +100,49 @@ export class UsersRepository {
     });
 
     return token; // return raw token to client ONLY once
+  }
+
+  refreshTokenUpdate(matchedToken) {
+    return this.prisma.refreshToken.update({
+      where: { id: matchedToken.id },
+      data: { revokedAt: new Date() },
+    });
+  }
+  refreshTokenUpdateMany(userId) {
+    return this.prisma.refreshToken.updateMany({
+      where: {
+        userId,
+        revokedAt: null,
+      },
+      data: {
+        revokedAt: new Date(),
+      },
+    });
+  }
+
+  findManyRefreshTokens() {
+    return this.prisma.refreshToken.findMany({
+      where: {
+        revokedAt: null,
+        expiresAt: {
+          gt: new Date(),
+        },
+      },
+      include: {
+        user: true,
+      },
+    });
+  }
+
+  findUserTokens(userId: string) {
+    return this.prisma.refreshToken.findMany({
+      where: {
+        userId,
+        revokedAt: null,
+        expiresAt: {
+          gt: new Date(),
+        },
+      },
+    });
   }
 }

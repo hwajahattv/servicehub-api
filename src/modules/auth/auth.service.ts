@@ -7,6 +7,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { UsersRepository } from '../users/users.repository';
+import { RefreshDto } from './dto/login.dto';
 
 @Injectable()
 export class AuthService {
@@ -86,5 +87,76 @@ export class AuthService {
     }
 
     return user;
+  }
+
+  async refresh(dto: RefreshDto) {
+    const tokens = await this.usersRepository.findManyRefreshTokens();
+
+    let matchedToken: any = null;
+    let matchedUser: any = null;
+
+    for (const token of tokens) {
+      const isValid = await bcrypt.compare(dto.refreshToken, token.tokenHash);
+
+      if (isValid) {
+        matchedToken = token;
+        matchedUser = token.user;
+        break;
+      }
+    }
+
+    if (!matchedToken || !matchedUser) {
+      throw new UnauthorizedException('Invalid refresh token');
+    }
+
+    // ROTATION: revoke old token
+    await this.usersRepository.refreshTokenUpdate(matchedToken);
+
+    // generate new tokens
+    const accessToken = await this.generateAccessToken(matchedUser);
+
+    const newRefreshToken = await this.usersRepository.generateRefreshToken(
+      matchedUser.id,
+    );
+
+    return {
+      accessToken,
+      refreshToken: newRefreshToken,
+    };
+  }
+
+  findRefreshTokensByUserId(userId: string) {
+    return this.usersRepository.findUserTokens(userId);
+  }
+
+  compareTokens(refreshToken: string, tokenHash: string) {
+    return bcrypt.compare(refreshToken, tokenHash);
+  }
+
+  refreshTokenUpdate(token) {
+    return this.usersRepository.refreshTokenUpdate(token);
+  }
+
+  async logout(userId: string, refreshToken: string) {
+    const tokens = await this.usersRepository.findUserTokens(userId);
+
+    for (const token of tokens) {
+      const isMatch = await this.compareTokens(refreshToken, token.tokenHash);
+
+      if (isMatch) {
+        await this.usersRepository.refreshTokenUpdate(token);
+        break;
+      }
+    }
+
+    return { success: true };
+  }
+
+  async logoutAll(userId: string) {
+    await this.usersRepository.refreshTokenUpdateMany({
+      userId,
+    });
+
+    return { success: true };
   }
 }
