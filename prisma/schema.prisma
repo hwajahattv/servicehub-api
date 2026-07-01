@@ -13,27 +13,27 @@ enum UserStatus {
   SUSPENDED
 }
 
-
 model User {
-  id           String @id @default(uuid())
+  id String @id @default(uuid())
 
-  name         String
-  email        String @unique
-  phone        String?
+  name  String
+  email String  @unique
+  phone String?
 
   passwordHash String
 
-  status       UserStatus @default(ACTIVE)
+  status UserStatus @default(ACTIVE)
 
-  lastLoginAt  DateTime?
+  lastLoginAt DateTime?
 
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  deletedAt    DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
 
   refreshTokens RefreshToken[]
+  userRoles     UserRole[]
 
+  @@index([email])
   @@map("users")
 }
 
@@ -45,14 +45,100 @@ model RefreshToken {
   tokenHash String
 
   expiresAt DateTime
-
   revokedAt DateTime?
 
   createdAt DateTime @default(now())
 
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
-
   @@map("refresh_tokens")
+}
+
+model Role {
+  id String @id @default(uuid())
+
+  name        String  @unique
+  description String?
+
+  isSystem Boolean @default(false)
+  isActive Boolean @default(true)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  userRoles       UserRole[]
+  rolePermissions RolePermission[]
+
+  @@index([name])
+  @@map("roles")
+}
+
+model Permission {
+  id String @id @default(uuid())
+
+  resource String
+  action   String
+
+  name        String  @unique
+  description String?
+
+  isSystem Boolean @default(false)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  rolePermissions RolePermission[]
+
+  @@index([resource])
+  @@index([name])
+  @@map("permissions")
+}
+
+model UserRole {
+  id String @id @default(uuid())
+
+  userId String
+  roleId String
+
+  assignedBy String?
+  assignedAt DateTime  @default(now())
+  expiresAt  DateTime?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role Role @relation(fields: [roleId], references: [id], onDelete: Restrict)
+
+  @@unique([userId, roleId])
+  @@index([userId])
+  @@index([roleId])
+  @@map("user_roles")
+}
+
+model RolePermission {
+  id String @id @default(uuid())
+
+  roleId       String
+  permissionId String
+
+  assignedBy String?
+  assignedAt DateTime @default(now())
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  role Role @relation(fields: [roleId], references: [id], onDelete: Restrict)
+
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Restrict)
+
+  @@unique([roleId, permissionId])
+  @@index([roleId])
+  @@index([permissionId])
+  @@map("role_permissions")
 }
