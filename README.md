@@ -1,98 +1,308 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# ServiceHub API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Overview
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+ServiceHub is an enterprise-grade Complaint and Service Management platform designed to demonstrate modern software engineering practices, scalable architecture, and real-world development workflows.
 
-## Description
+The project is being developed as a production-quality application using Domain-Driven design principles, modular architecture, and Agile development practices. Rather than focusing only on implementing features, the project emphasizes software architecture, documentation, maintainability, security, testing, and deployment.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+This repository contains the backend API built with NestJS.
 
-## Project setup
+---
 
-```bash
-$ npm install
+# Project Vision
+
+The objective of ServiceHub is to build a reusable enterprise application foundation that can be extended into multiple business domains, including:
+
+* Complaint Management System
+* Learning Management System (LMS)
+* School Management System
+* Hospital Management System
+* Hotel Management System
+* Human Resource Management System (HRMS)
+* Enterprise Resource Planning (ERP)
+
+The architecture is intentionally designed to support future expansion without requiring major structural changes.
+
+---
+
+# Goals
+
+* Build a production-ready backend using NestJS.
+* Apply enterprise architecture and software engineering best practices.
+* Learn Agile development using Jira.
+* Produce professional engineering documentation.
+* Implement secure authentication and authorization.
+* Build scalable APIs following REST principles.
+* Integrate asynchronous processing using queues.
+* Generate PDF and Excel reports.
+* Containerize the application using Docker.
+* Deploy the application using modern DevOps practices.
+* Build an AI Engineering Assistant (Astro PM) capable of understanding the project and interacting with Jira.
+
+---
+
+# Technology Stack
+
+## Backend
+
+* NestJS
+* TypeScript
+* Prisma ORM
+* PostgreSQL
+* Redis
+* BullMQ
+* Passport
+* JWT Authentication
+* Swagger / OpenAPI
+
+## Frontend
+
+* React
+* TypeScript
+* React Router
+* TanStack Query
+* React Hook Form
+* Material UI (planned)
+
+## Infrastructure
+
+* Docker
+* Docker Compose
+* Nginx
+* GitHub
+* Jira
+* Confluence (planned)
+
+---
+
+# Core Modules
+
+The platform will be developed incrementally using independent modules.
+
+* Authentication & Identity Management
+* Role-Based Access Control (RBAC)
+* User Management
+* Department Management
+* Complaint / Ticket Management
+* File Management
+* Notification Service
+* Reporting
+* Dashboard & Analytics
+* Audit Logging
+* Background Jobs
+* System Configuration
+
+---
+
+# Architecture Highlights
+
+The backend follows a modular architecture with clear separation of responsibilities.
+
+Key architectural principles include:
+
+* Modular Design
+* Repository Pattern
+* Dependency Injection
+* Domain-Oriented Modules
+* DTO-based Validation
+* Centralized Exception Handling
+* JWT Authentication
+* Refresh Token Rotation
+* Role-Based Authorization
+* Soft Deletes
+* Audit-Friendly Database Design
+* API Versioning
+
+Architecture decisions are documented separately in the `docs/` directory.
+
+---
+
+# Project Structure
+
+```text
+servicehub-api/
+│
+├── docs/
+│
+├── prisma/
+│
+├── src/
+│   ├── common/
+│   ├── config/
+│   ├── database/
+│   ├── modules/
+│   ├── shared/
+│   └── main.ts
+│
+├── test/
+│
+├── docker/
+│
+└── README.md
 ```
 
-## Compile and run the project
+---
 
-```bash
-# development
-$ npm run start
+# Development Workflow
 
-# watch mode
-$ npm run start:dev
+The project follows an Agile development process.
 
-# production mode
-$ npm run start:prod
+Requirement
+
+↓
+
+Product Documentation
+
+↓
+
+Architecture Design
+
+↓
+
+Architecture Decision Records (ADRs)
+
+↓
+
+Jira Epic
+
+↓
+
+Jira Story
+
+↓
+
+Technical Tasks
+
+↓
+
+Development
+
+↓
+
+Testing
+
+↓
+
+Documentation
+
+↓
+
+Deployment
+
+Every feature begins with planning before implementation.
+
+---
+
+# Documentation
+
+All engineering documentation is maintained under the `docs/` directory.
+
+```
+docs/
+
+00-Product/
+
+01-Architecture/
+
+02-ADR/
+
+03-Sprints/
+
+04-API/
+
+05-Database/
+
+06-Security/
+
+07-Templates/
+
+08-Engineering/
 ```
 
-## Run tests
+Documentation is treated as part of the codebase and version controlled.
 
-```bash
-# unit tests
-$ npm run test
+---
 
-# e2e tests
-$ npm run test:e2e
+# Development Roadmap
 
-# test coverage
-$ npm run test:cov
-```
+## Release 0.1 – Foundation
 
-## Deployment
+* Infrastructure
+* Docker
+* Prisma
+* Authentication
+* RBAC
+* Swagger
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+## Release 0.2 – User Management
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+* User CRUD
+* Departments
+* Profile Management
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+## Release 0.3 – Complaint Management
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+* Complaint Lifecycle
+* Assignment
+* Comments
+* Attachments
 
-## Resources
+## Release 0.4 – Notifications
 
-Check out a few resources that may come in handy when working with NestJS:
+* Email
+* In-App Notifications
+* Queue Processing
+* WebSockets
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+## Release 0.5 – Reporting
 
-## Support
+* PDF Reports
+* Excel Reports
+* Dashboards
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Release 1.0 – Production
 
-## Stay in touch
+* CI/CD
+* Monitoring
+* Performance Optimization
+* Production Deployment
+* Security Hardening
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+---
 
-## License
+# Project Management
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Development is managed using Jira.
+
+Engineering documentation is maintained within this repository.
+
+Future AI integration (Astro PM) will use both Jira and the project documentation as its primary knowledge sources.
+
+---
+
+# Learning Objectives
+
+This project is intentionally designed as a long-term learning initiative.
+
+Its objectives extend beyond building software and include learning:
+
+* Enterprise Software Architecture
+* Backend Development with NestJS
+* Frontend Development with React
+* PostgreSQL Database Design
+* Docker & Containerization
+* Agile Project Management
+* Jira Administration
+* DevOps Fundamentals
+* API Design
+* Security Best Practices
+* AI-assisted Software Engineering
+
+---
+
+# License
+
+This project is being developed for educational, research, and portfolio purposes.
+
+Future licensing will be determined before the first production release.
